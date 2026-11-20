@@ -2,8 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/motion";
-import { profile, stats } from "@/data/content";
-import Scramble from "./Scramble";
+import { profile, modelCard } from "@/data/content";
 
 export default function About() {
   const root = useRef<HTMLElement>(null);
@@ -14,90 +13,67 @@ export default function About() {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.fromTo(
           ".about__word",
-          { opacity: 0.12 },
+          { opacity: 0.14 },
           {
             opacity: 1,
             stagger: 0.05,
             ease: "none",
-            scrollTrigger: { trigger: ".about__statement", start: "top 80%", end: "bottom 45%", scrub: true },
+            scrollTrigger: { trigger: ".about__statement", start: "top 80%", end: "bottom 50%", scrub: true },
           }
         );
-
-        gsap.from(".about__photo img", {
-          scale: 1.25,
-          ease: "none",
-          scrollTrigger: { trigger: ".about__photo", start: "top bottom", end: "bottom top", scrub: true },
+        gsap.from(".card__row", {
+          clipPath: "inset(0 100% 0 0)",
+          duration: 0.9,
+          stagger: 0.08,
+          ease: "expo.out",
+          scrollTrigger: { trigger: ".card", start: "top 78%" },
         });
-      });
-
-      gsap.utils.toArray<HTMLElement>(".stat__value").forEach((el) => {
-        const target = Number(el.dataset.value);
-        const decimals = Number(el.dataset.decimals);
-        const o = { v: 0 };
-        gsap.to(o, {
-          v: target,
-          duration: 1.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
-          onUpdate: () => {
-            el.textContent = o.v.toFixed(decimals);
-          },
+        gsap.from(".gauge__fill", {
+          scaleX: 0,
+          duration: 1.6,
+          ease: "expo.out",
+          scrollTrigger: { trigger: ".gauge", start: "top 85%" },
         });
-      });
-
-      gsap.from(".stat", {
-        y: 40,
-        autoAlpha: 0,
-        stagger: 0.1,
-        duration: 1,
-        ease: "expo.out",
-        scrollTrigger: { trigger: ".about__stats", start: "top 85%" },
       });
     }, root);
     return () => ctx.revert();
   }, []);
 
-  const [lead, ...rest] = profile.about;
-
   return (
     <section className="about section" id="about" ref={root}>
-      <div className="section__head">
-        <span className="mono label">( 02 )</span>
-        <Scramble className="mono label" text="About me" onView />
-      </div>
-
       <p className="about__statement">
-        {profile.intro.split(" ").map((w, i) => (
+        {profile.about.split(" ").map((w, i) => (
           <span className="about__word" key={i}>
             {w}{" "}
           </span>
         ))}
       </p>
 
-      <div className="about__grid">
-        <figure className="about__photo">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/me.png" alt="" loading="lazy" />
-          <figcaption className="mono label">{profile.fullName}</figcaption>
-        </figure>
-        <div className="about__copy">
-          <p className="about__lead">{lead}</p>
-          {rest.map((p, i) => (
-            <p key={i}>{p}</p>
+      <div className="card" data-lock="off">
+        <header className="card__head">
+          <h2 className="card__title">Model card</h2>
+          <code className="card__id">{profile.handle}-v2026</code>
+        </header>
+
+        <dl className="card__rows">
+          {modelCard.map((r) => (
+            <div className={`card__row ${r.highlight ? "card__row--hi" : ""}`} key={r.key}>
+              <dt>{r.key}</dt>
+              <dd>{r.value}</dd>
+            </div>
           ))}
+        </dl>
+
+        <div className="gauge" role="img" aria-label="CGPA 3.84 out of 4.00">
+          <div className="gauge__track">
+            <div className="gauge__fill" style={{ width: `${(3.84 / 4) * 100}%` }} />
+          </div>
+          <div className="gauge__scale" aria-hidden="true">
+            <span>0.00</span>
+            <span>CGPA 3.84 / 4.00</span>
+          </div>
         </div>
       </div>
-
-      <ul className="about__stats">
-        {stats.map((s) => (
-          <li className="stat" key={s.label}>
-            <span className="stat__value" data-value={s.value} data-decimals={s.decimals}>
-              {s.value.toFixed(s.decimals)}
-            </span>
-            <span className="mono label">{s.label}</span>
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

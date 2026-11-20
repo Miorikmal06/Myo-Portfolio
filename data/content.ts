@@ -6,16 +6,15 @@ export const profile = {
   firstName: "Mior",
   lastName: "Ikmal",
   fullName: "Mior Muhammad Ikmal",
-  role: "Web Developer & Big Data Student",
-  location: "Lumut, Perak — Malaysia",
-  status: "Open to freelance & internship",
+  handle: "mior_ikmal",
+  role: "Web developer & big data student",
+  location: "Lumut, Perak, Malaysia",
+  status: "Open for freelance & internship",
+  email: "miorikmal06@gmail.com",
   intro:
-    "I build landing pages, websites and web systems that people actually use — and I study data to understand how they use them.",
-  about: [
-    "I'm a Diploma in Computer Technology (Big Data) student at TVETMARA Lumut, holding a 3.84 CGPA.",
-    "Most of what I know, I learned by shipping. A spelling game for kids. A food-stall directory for my campus. A booking system for our gym. An AI gate that reads number plates and faces.",
-    "I like work that sits between code and real people — and I take it from first sketch to a live link.",
-  ],
+    "I build landing pages, websites and systems that see, sort and respond — from a kids' spelling game to an AI gate that reads number plates.",
+  about:
+    "Diploma in Computer Technology (Big Data) at TVETMARA Lumut. Most of what I know, I learned by shipping things real people use, then reading the data to make them better.",
   socials: {
     github: "https://github.com/Miorikmal06",
     linkedin:
@@ -23,130 +22,119 @@ export const profile = {
   },
 };
 
-export const stats = [
-  { value: 3.84, decimals: 2, label: "Current CGPA" },
-  { value: 6, decimals: 0, label: "Innovation medals" },
-  { value: 2, decimals: 0, label: "International golds" },
-  { value: 5, decimals: 0, label: "Projects shipped" },
+/** Shown as an ML-style "model card" in the About section. */
+export const modelCard = [
+  { key: "Trained at", value: "TVETMARA Lumut, 2024 to 2027" },
+  { key: "Accuracy (CGPA)", value: "3.84", highlight: true },
+  { key: "Medals won", value: "6, including 2 international golds", highlight: true },
+  { key: "Projects shipped", value: "4 live builds" },
+  { key: "Certified by", value: "Cisco NetAcad: CCNA ×2, networking, data analytics" },
+  { key: "Also runs on", value: "Robotics teaching at Jazro" },
 ];
 
 export type Project = {
   id: string;
   title: string;
-  kind: string;
+  kind: "IoT system" | "Landing page" | "Website" | "Web app";
   year: string;
   summary: string;
+  detail: string;
   stack: string[];
-  image?: string;
+  image: string;
   url?: string;
-  note?: string;
+  badge?: string;
+  confidence: number;
 };
 
 export const projects: Project[] = [
   {
     id: "nexguard",
     title: "NexGuard",
-    kind: "IoT System",
+    kind: "IoT system",
     year: "2026",
-    summary:
-      "Smart barrier gate for Condominium Seri Hijau. Reads number plates and faces, opens for residents, alerts guards on Telegram.",
-    stack: ["Python", "Flask", "YOLO", "EasyOCR", "Supabase", "Raspberry Pi"],
+    summary: "AI barrier gate that reads number plates and faces.",
+    detail:
+      "Built for Condominium Seri Hijau. YOLO spots the plate, OCR reads it, face recognition checks the driver, and the gate opens for residents only. Guards get Telegram alerts and a security dashboard with every event on record.",
+    stack: ["Python", "Flask", "YOLO", "EasyOCR", "Supabase", "Raspberry Pi", "Telegram API"],
     image: "/work/nexguard.webp",
-    note: "Final Year Project · iDEA'26 Bronze",
+    badge: "Final year project, iDEA'26 bronze",
+    confidence: 0.98,
   },
   {
     id: "jazro",
     title: "Jazro Kepala Batas",
-    kind: "Landing Page",
+    kind: "Landing page",
     year: "2026",
-    summary:
-      "Landing page for a kids' robotics & coding centre. BM / EN toggle, class schedule, fees and free-trial booking on WhatsApp.",
+    summary: "Landing page for a kids' robotics and coding centre.",
+    detail:
+      "One page that turns parents into trial-class bookings: Malay and English toggle, class schedule, fees, location, and a WhatsApp button that is never more than a thumb away.",
     stack: ["Vite", "JavaScript", "CSS"],
     image: "/work/jazro.webp",
     url: "https://jazro-kepala-batas.vercel.app",
+    confidence: 0.97,
   },
   {
     id: "bizhub",
     title: "BizHub TVETMARA",
     kind: "Website",
     year: "2026",
-    summary:
-      "Digital home for student-run food stalls on campus. Vendors, menus and an admin panel to keep listings fresh.",
+    summary: "Home for the student-run food stalls on campus.",
+    detail:
+      "Students browse stalls, menus and vendors in one place. Vendors are managed from an admin panel backed by Firebase, so listings stay current without touching code.",
     stack: ["JavaScript", "Firebase", "Firestore"],
     image: "/work/bizhub.webp",
     url: "https://bizhub-tvetmara.vercel.app",
+    confidence: 0.96,
   },
   {
     id: "jom-eja",
     title: "Jom Eja!",
-    kind: "Web App",
+    kind: "Web app",
     year: "2026",
-    summary:
-      "Malay spelling games for young kids — spin-the-wheel, syllable builder and letter matching, with voice audio.",
+    summary: "Malay spelling games for young kids.",
+    detail:
+      "Spin the wheel, build words from syllables, match letters. Every word is voiced, so children who can't read yet can still play along.",
     stack: ["HTML", "CSS", "JavaScript", "Web Audio"],
     image: "/work/jom-eja.webp",
     url: "https://jom-eja.vercel.app",
-  },
-  {
-    id: "gym",
-    title: "Gym Booking System",
-    kind: "Web System",
-    year: "2024",
-    summary:
-      "Booking system for the TVETMARA Lumut gym. Student and admin login, online slots, automatic cap to stop overbooking.",
-    stack: ["PHP", "MySQL", "HTML", "CSS"],
-    note: "Campus system",
+    confidence: 0.95,
   },
 ];
 
-export const services = [
+/** Hovering a capability lights up the tools it uses. */
+export const capabilities = [
   {
-    title: "Landing Pages",
-    body: "One page, one job: get the visitor to book, buy or message. Fast, mobile-first, with animation that serves the story.",
-    proof: "Jazro Kepala Batas",
+    title: "Landing pages",
+    body: "One page, one job: get the visitor to book, buy or message.",
+    tools: ["HTML", "CSS", "JavaScript", "Vite", "GSAP"],
   },
   {
     title: "Websites",
-    body: "Multi-page sites for small businesses and communities, with content you can update without calling me.",
-    proof: "BizHub TVETMARA",
+    body: "Multi-page sites that owners can update without calling me.",
+    tools: ["JavaScript", "Firebase", "Next.js", "React"],
   },
   {
-    title: "Web Systems",
-    body: "Login, roles, bookings, records and admin dashboards — built on PHP, Flask or Firebase with a real database behind it.",
-    proof: "Gym Booking · NexGuard",
+    title: "Web systems",
+    body: "Logins, roles, records and admin dashboards on a real database.",
+    tools: ["PHP", "MySQL", "Flask", "Supabase", "Firebase", "SQL"],
   },
   {
-    title: "Data Dashboards",
-    body: "Clean the spreadsheet, find the story, show it in Power BI or Python so the numbers make a decision easier.",
-    proof: "Power BI · Pandas",
+    title: "Data dashboards",
+    body: "Clean the spreadsheet, find the story, show it so it drives a decision.",
+    tools: ["Power BI", "Python", "Pandas", "NumPy", "Matplotlib", "Excel", "SQL"],
   },
   {
-    title: "IoT & Computer Vision",
-    body: "Raspberry Pi, sensors and cameras wired to YOLO, OCR and face recognition, reporting to the cloud and Telegram.",
-    proof: "NexGuard",
+    title: "IoT and computer vision",
+    body: "Cameras and sensors wired to models that detect, read and recognise.",
+    tools: ["Raspberry Pi", "YOLO", "OpenCV", "EasyOCR", "Python", "Telegram API"],
   },
 ];
 
-export const stack = [
-  "Python",
-  "JavaScript",
-  "HTML",
-  "CSS",
-  "PHP",
-  "SQL",
-  "MySQL",
-  "Flask",
-  "Firebase",
-  "Supabase",
-  "Power BI",
-  "Pandas",
-  "NumPy",
-  "Matplotlib",
-  "YOLO",
-  "OpenCV",
-  "Raspberry Pi",
-  "Git",
-  "Cisco CCNA",
+export const allTools = [
+  "HTML", "CSS", "JavaScript", "React", "Next.js", "Vite", "GSAP",
+  "PHP", "Flask", "Python", "SQL", "MySQL", "Supabase", "Firebase",
+  "Power BI", "Pandas", "NumPy", "Matplotlib", "Excel",
+  "YOLO", "OpenCV", "EasyOCR", "Raspberry Pi", "Telegram API", "Git",
 ];
 
 export type Milestone = {
@@ -159,8 +147,8 @@ export type Milestone = {
 
 export const journey: Milestone[] = [
   {
-    year: "2019 — 23",
-    title: "SPM — 6A 1B 1D",
+    year: "2023",
+    title: "SPM, 6A 1B 1D",
     place: "SMK Datuk Haji Ahmad Badawi",
     detail: "Finished secondary school and picked computing as the next road.",
   },
@@ -168,45 +156,39 @@ export const journey: Milestone[] = [
     year: "2024",
     title: "Diploma in Computer Technology (Big Data)",
     place: "TVETMARA Lumut",
-    detail: "Started the diploma. Current CGPA 3.84. Graduating 2027.",
-  },
-  {
-    year: "2024",
-    title: "Gym Booking System",
-    place: "TVETMARA Lumut",
-    detail: "First full web system: logins, roles and slot control in PHP & MySQL.",
+    detail: "Started the diploma. Current CGPA 3.84, graduating 2027.",
   },
   {
     year: "Part-time",
-    title: "Robotics Tutor",
+    title: "Robotics tutor",
     place: "Jazro, Kepala Batas",
     detail: "Taught kids STEM through robot building and coding classes.",
   },
   {
     year: "2025",
-    title: "iDRIVE '25 — Gold Medal",
+    title: "iDRIVE '25 gold medal",
     place: "International Development, Research & Innovation Exhibition",
-    detail: "Gold for SentiQ-21. Also Bronze at the KEDA Innovation Competition.",
+    detail: "Gold for SentiQ-21, plus bronze at the KEDA Innovation Competition.",
     medal: "gold",
   },
   {
     year: "2025",
     title: "WorldSkills 2025",
     place: "UTeM",
-    detail: "Competed at WorldSkills, plus the ASTI Feynman Challenge.",
+    detail: "Competed at WorldSkills and the ASTI Feynman Challenge.",
   },
   {
     year: "2026",
-    title: "INTELLIGENT'26 — Gold Medal",
+    title: "INTELLIGENT'26 gold medal",
     place: "International Innovation & Invention Challenge",
-    detail: "Gold for Sistem Kehadiran Zero Costing. Silver at New Generation World Innovation Challenges.",
+    detail: "Gold for Sistem Kehadiran Zero Costing, silver at New Generation World Innovation Challenges.",
     medal: "gold",
   },
   {
     year: "2026",
-    title: "NexGuard — iDEA'26 Bronze",
-    place: "Final Year Project",
-    detail: "AI barrier gate with plate & face recognition for Condominium Seri Hijau.",
+    title: "NexGuard, iDEA'26 bronze",
+    place: "Final year project",
+    detail: "AI barrier gate with plate and face recognition for Condominium Seri Hijau.",
     medal: "bronze",
   },
 ];
@@ -215,14 +197,14 @@ export const awards = [
   { medal: "gold", event: "iDRIVE '25", project: "SentiQ-21" },
   { medal: "gold", event: "INTELLIGENT'26", project: "Sistem Kehadiran Zero Costing" },
   { medal: "silver", event: "New Generation World Innovation", project: "Sistem Kehadiran Zero Costing" },
-  { medal: "silver", event: "Innovation Competition — ICT", project: "ICT Category" },
+  { medal: "silver", event: "Innovation Competition, ICT category", project: "ICT category" },
   { medal: "bronze", event: "iDEA'26", project: "NexGuard" },
   { medal: "bronze", event: "KEDA Innovation", project: "SentiQ-21" },
 ] as const;
 
 export const certifications = [
-  "CCNA: Switching, Routing & Wireless Essentials — Cisco",
-  "CCNA: Enterprise Networking, Security & Automation — Cisco",
-  "Network Fundamentals — Cisco",
-  "Data Analytics Essentials — Cisco",
+  { name: "CCNA: Switching, Routing & Wireless Essentials", by: "Cisco" },
+  { name: "CCNA: Enterprise Networking, Security & Automation", by: "Cisco" },
+  { name: "Network Fundamentals", by: "Cisco" },
+  { name: "Data Analytics Essentials", by: "Cisco" },
 ];

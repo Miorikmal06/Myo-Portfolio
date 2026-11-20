@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/motion";
 import { journey, awards, certifications } from "@/data/content";
-import Scramble from "./Scramble";
 
 export default function Journey() {
   const root = useRef<HTMLElement>(null);
@@ -13,7 +12,6 @@ export default function Journey() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // Desktop: pin the section and scroll the timeline sideways.
       mm.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
         const el = track.current!;
         const distance = () => el.scrollWidth - window.innerWidth;
@@ -31,7 +29,7 @@ export default function Journey() {
           },
         });
 
-        gsap.to(".journey__progress", {
+        gsap.to(".rail__fill", {
           scaleX: 1,
           ease: "none",
           scrollTrigger: {
@@ -43,15 +41,13 @@ export default function Journey() {
           },
         });
 
-        gsap.utils.toArray<HTMLElement>(".milestone").forEach((card) => {
-          // Cards already on screen reveal as the section arrives;
-          // the rest reveal as they slide in from the right.
+        gsap.utils.toArray<HTMLElement>(".stop").forEach((card) => {
           const onScreen = card.offsetLeft < window.innerWidth * 0.85;
           gsap.from(card, {
-            y: 80,
+            y: 60,
             autoAlpha: 0,
             ease: "expo.out",
-            duration: 1.1,
+            duration: 1,
             delay: onScreen ? card.offsetLeft / 3000 : 0,
             scrollTrigger: onScreen
               ? { trigger: ".journey__track", start: "top 85%" }
@@ -60,13 +56,12 @@ export default function Journey() {
         });
       });
 
-      // Mobile: plain vertical list, each card rises in.
       mm.add("(max-width: 899px) and (prefers-reduced-motion: no-preference)", () => {
-        gsap.utils.toArray<HTMLElement>(".milestone").forEach((card) => {
+        gsap.utils.toArray<HTMLElement>(".stop").forEach((card) => {
           gsap.from(card, {
-            y: 50,
+            y: 40,
             autoAlpha: 0,
-            duration: 1,
+            duration: 0.9,
             ease: "expo.out",
             scrollTrigger: { trigger: card, start: "top 88%" },
           });
@@ -74,12 +69,12 @@ export default function Journey() {
       });
 
       gsap.from(".award", {
-        y: 30,
+        y: 24,
         autoAlpha: 0,
-        stagger: 0.07,
-        duration: 0.9,
+        stagger: 0.06,
+        duration: 0.8,
         ease: "expo.out",
-        scrollTrigger: { trigger: ".recognition", start: "top 80%" },
+        scrollTrigger: { trigger: ".recog", start: "top 80%" },
       });
     }, root);
     return () => ctx.revert();
@@ -88,59 +83,51 @@ export default function Journey() {
   return (
     <section className="journey" id="journey" ref={root}>
       <div className="journey__pin">
-        <div className="journey__head section__inner">
-          <div className="section__head">
-            <span className="mono label">( 05 )</span>
-            <Scramble className="mono label" text="Journey" onView />
-          </div>
-          <h2 className="section__title">
-            Resume, <em>but moving</em>
-          </h2>
+        <div className="journey__head">
+          <h2 className="section__title">Journey so far</h2>
         </div>
 
         <div className="journey__track" ref={track}>
           {journey.map((m, i) => (
-            <article className={`milestone ${m.medal ? `milestone--${m.medal}` : ""}`} key={i}>
-              <span className="milestone__in milestone__year">{m.year}</span>
-              <span className="milestone__in milestone__dot" aria-hidden="true" />
-              <h3 className="milestone__in milestone__title">{m.title}</h3>
-              <p className="milestone__in milestone__place mono">{m.place}</p>
-              <p className="milestone__in milestone__detail">{m.detail}</p>
+            <article className={`stop ${m.medal ? `stop--${m.medal}` : ""}`} key={i}>
+              <span className="stop__year">{m.year}</span>
+              <h3 className="stop__title">{m.title}</h3>
+              <p className="stop__place">{m.place}</p>
+              <p className="stop__detail">{m.detail}</p>
             </article>
           ))}
-          <article className="milestone milestone--next">
-            <span className="milestone__in milestone__year">2027 →</span>
-            <span className="milestone__in milestone__dot" aria-hidden="true" />
-            <h3 className="milestone__in milestone__title">Graduating. Next chapter: your project?</h3>
+          <article className="stop stop--next">
+            <span className="stop__year">2027</span>
+            <h3 className="stop__title">Graduating. Next up: your project.</h3>
           </article>
         </div>
 
-        <div className="journey__rail" aria-hidden="true">
-          <div className="journey__progress" />
+        <div className="rail" aria-hidden="true">
+          <div className="rail__fill" />
         </div>
       </div>
 
-      <div className="recognition section__inner">
-        <div className="recognition__col">
-          <h3 className="mono label">Medals &amp; awards</h3>
+      <div className="recog">
+        <div>
+          <h3 className="recog__title">Medals</h3>
           <ul>
             {awards.map((a, i) => (
               <li className="award" key={i}>
                 <span className={`medal medal--${a.medal}`} aria-label={`${a.medal} medal`} />
                 <span className="award__event">{a.event}</span>
-                <span className="award__project mono">{a.project}</span>
+                <span className="award__project">{a.project}</span>
               </li>
             ))}
           </ul>
         </div>
-        <div className="recognition__col">
-          <h3 className="mono label">Certifications</h3>
+        <div>
+          <h3 className="recog__title">Certifications</h3>
           <ul>
             {certifications.map((c) => (
-              <li className="award" key={c}>
+              <li className="award" key={c.name}>
                 <span className="medal medal--cert" aria-hidden="true" />
-                <span className="award__event">{c.split(" — ")[0]}</span>
-                <span className="award__project mono">{c.split(" — ")[1]}</span>
+                <span className="award__event">{c.name}</span>
+                <span className="award__project">{c.by}</span>
               </li>
             ))}
           </ul>

@@ -6,13 +6,13 @@ import { scrollToTarget } from "@/lib/motion";
 
 const links = [
   { href: "#about", label: "About" },
-  { href: "#work", label: "Work" },
+  { href: "#work", label: "Projects" },
   { href: "#journey", label: "Journey" },
   { href: "#contact", label: "Contact" },
 ];
 
 export function useLocalTime() {
-  const [time, setTime] = useState("--:--:--");
+  const [time, setTime] = useState("--:--");
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Asia/Kuala_Lumpur",
@@ -38,19 +38,20 @@ export default function Nav() {
 
   return (
     <header className="nav">
-      <a href="#top" className="nav__logo" onClick={(e) => go(e, "#top")} data-cursor="link" aria-label="Back to top">
-        MI<span className="accent">.</span>
+      <a href="#top" className="nav__logo" onClick={(e) => go(e, "#top")} aria-label="MYO, back to top" data-lock-label="home">
+        <span className="nav__logo-mark" aria-hidden="true" />
+        MYO
       </a>
       <nav className="nav__links" aria-label="Sections">
         {links.map((l) => (
-          <a key={l.href} href={l.href} onClick={(e) => go(e, l.href)} data-scramble-trigger data-cursor="link">
+          <a key={l.href} href={l.href} onClick={(e) => go(e, l.href)} data-scramble-trigger data-lock-label={l.label.toLowerCase()}>
             <Scramble text={l.label} />
           </a>
         ))}
       </nav>
-      <div className="nav__meta mono">
-        <span className="dot dot--live" aria-hidden="true" />
-        <span>MYT {time}</span>
+      <div className="nav__meta">
+        <span className="pulse" aria-hidden="true" />
+        <span>Lumut {time}</span>
       </div>
     </header>
   );
