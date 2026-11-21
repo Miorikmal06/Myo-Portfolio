@@ -8,9 +8,8 @@ export default function SmoothScroll() {
   useEffect(() => {
     if (prefersReducedMotion()) return;
 
-    const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 1 });
+    const lenis = new Lenis({ lerp: 0.1 });
     setLenis(lenis);
-    lenis.stop(); // the preloader starts it again
 
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);

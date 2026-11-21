@@ -6,15 +6,13 @@ export const profile = {
   firstName: "Mior",
   lastName: "Ikmal",
   fullName: "Mior Muhammad Ikmal",
-  handle: "mior_ikmal",
-  role: "Web developer & big data student",
-  location: "Lumut, Perak, Malaysia",
-  status: "Open for freelance & internship",
+  role: "Web developer and big data student",
+  school: "TVETMARA",
   email: "miorikmal06@gmail.com",
   intro:
-    "I build landing pages, websites and systems that see, sort and respond — from a kids' spelling game to an AI gate that reads number plates.",
+    "I design and build landing pages, websites and web systems, and I use data to make them work better for the people using them.",
   about:
-    "Diploma in Computer Technology (Big Data) at TVETMARA Lumut. Most of what I know, I learned by shipping things real people use, then reading the data to make them better.",
+    "I study Computer Technology (Big Data) at TVETMARA. Most of what I know, I learned by shipping things real people use: a spelling game for kids, a food-stall directory for my campus, a landing page for a robotics academy, and an AI gate that reads number plates.",
   socials: {
     github: "https://github.com/Miorikmal06",
     linkedin:
@@ -22,15 +20,24 @@ export const profile = {
   },
 };
 
-/** Shown as an ML-style "model card" in the About section. */
-export const modelCard = [
-  { key: "Trained at", value: "TVETMARA Lumut, 2024 to 2027" },
-  { key: "Accuracy (CGPA)", value: "3.84", highlight: true },
-  { key: "Medals won", value: "6, including 2 international golds", highlight: true },
-  { key: "Projects shipped", value: "4 live builds" },
-  { key: "Certified by", value: "Cisco NetAcad: CCNA ×2, networking, data analytics" },
-  { key: "Also runs on", value: "Robotics teaching at Jazro" },
+export const facts = [
+  { value: "3.84", label: "Current CGPA" },
+  { value: "6", label: "Innovation medals" },
+  { value: "2", label: "International golds" },
+  { value: "4", label: "Live projects" },
 ];
+
+/**
+ * Where the face sits in /public/me.png, as percentages of the image box.
+ * If the portrait is replaced, adjust these so the accessories line up.
+ */
+export const face = {
+  eyes: { x: 54, y: 14.3 },     // midpoint between the eyes
+  top: { x: 55, y: 3.5 },       // top of the head
+  mouth: { x: 50.5, y: 21.6 },  // centre of the mouth
+  neck: { x: 47, y: 33 },       // collar / tie knot
+  width: 36,                    // face width
+};
 
 export type Project = {
   id: string;
@@ -43,7 +50,6 @@ export type Project = {
   image: string;
   url?: string;
   badge?: string;
-  confidence: number;
 };
 
 export const projects: Project[] = [
@@ -54,24 +60,22 @@ export const projects: Project[] = [
     year: "2026",
     summary: "AI barrier gate that reads number plates and faces.",
     detail:
-      "Built for Condominium Seri Hijau. YOLO spots the plate, OCR reads it, face recognition checks the driver, and the gate opens for residents only. Guards get Telegram alerts and a security dashboard with every event on record.",
+      "Built for Condominium Seri Hijau. YOLO finds the plate, OCR reads it, face recognition checks the driver, and the gate opens for residents only. Guards get Telegram alerts and a dashboard with every event on record.",
     stack: ["Python", "Flask", "YOLO", "EasyOCR", "Supabase", "Raspberry Pi", "Telegram API"],
     image: "/work/nexguard.webp",
     badge: "Final year project, iDEA'26 bronze",
-    confidence: 0.98,
   },
   {
     id: "jazro",
     title: "Jazro Kepala Batas",
     kind: "Landing page",
     year: "2026",
-    summary: "Landing page for a kids' robotics and coding centre.",
+    summary: "Landing page for a kids' robotics and coding academy.",
     detail:
-      "One page that turns parents into trial-class bookings: Malay and English toggle, class schedule, fees, location, and a WhatsApp button that is never more than a thumb away.",
+      "One page that turns parents into trial-class bookings: Malay and English toggle, class schedule, fees, location, and a WhatsApp button that is never far from your thumb.",
     stack: ["Vite", "JavaScript", "CSS"],
     image: "/work/jazro.webp",
     url: "https://jazro-kepala-batas.vercel.app",
-    confidence: 0.97,
   },
   {
     id: "bizhub",
@@ -84,7 +88,6 @@ export const projects: Project[] = [
     stack: ["JavaScript", "Firebase", "Firestore"],
     image: "/work/bizhub.webp",
     url: "https://bizhub-tvetmara.vercel.app",
-    confidence: 0.96,
   },
   {
     id: "jom-eja",
@@ -97,11 +100,38 @@ export const projects: Project[] = [
     stack: ["HTML", "CSS", "JavaScript", "Web Audio"],
     image: "/work/jom-eja.webp",
     url: "https://jom-eja.vercel.app",
-    confidence: 0.95,
   },
 ];
 
-/** Hovering a capability lights up the tools it uses. */
+export type Experience = {
+  role: string;
+  org: string;
+  place: string;
+  period: string;
+  summary: string;
+  points: string[];
+  photos: { src: string; alt: string }[];
+};
+
+export const experience: Experience[] = [
+  {
+    role: "Robotics tutor",
+    org: "Jazro Academy",
+    place: "Kepala Batas",
+    period: "Part-time",
+    summary:
+      "Taught robotics and coding classes for children, from first robot builds to programming them to move.",
+    points: [
+      "Led hands-on classes where kids assemble real robots and code them with block-based tools.",
+      "Explained STEM ideas in simple language and kept young students engaged through play.",
+      "Ran school programmes such as Robocamp at SK Syed Ibrahim and SEBARU EXSTEM at SK Kampong Baru.",
+    ],
+    // Photos live in /public/experience/. Add or remove entries freely.
+    photos: [],
+  },
+];
+
+/** Hovering or tapping a service lights up the tools it uses. */
 export const capabilities = [
   {
     title: "Landing pages",
@@ -155,14 +185,8 @@ export const journey: Milestone[] = [
   {
     year: "2024",
     title: "Diploma in Computer Technology (Big Data)",
-    place: "TVETMARA Lumut",
+    place: "TVETMARA",
     detail: "Started the diploma. Current CGPA 3.84, graduating 2027.",
-  },
-  {
-    year: "Part-time",
-    title: "Robotics tutor",
-    place: "Jazro, Kepala Batas",
-    detail: "Taught kids STEM through robot building and coding classes.",
   },
   {
     year: "2025",

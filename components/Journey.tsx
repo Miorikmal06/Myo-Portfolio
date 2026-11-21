@@ -84,7 +84,8 @@ export default function Journey() {
     <section className="journey" id="journey" ref={root}>
       <div className="journey__pin">
         <div className="journey__head">
-          <h2 className="section__title">Journey so far</h2>
+          <h2 className="eyebrow">Journey</h2>
+          <p className="section__title">Education and awards</p>
         </div>
 
         <div className="journey__track" ref={track}>

@@ -82,7 +82,8 @@ export default function Capabilities() {
 
   return (
     <section className="caps section" id="capabilities" ref={root}>
-      <h2 className="section__title">What I can build for you</h2>
+      <h2 className="eyebrow">Services</h2>
+      <p className="section__title">What I can build for you</p>
       <p className="caps__hint">Pick a service to see the tools behind it.</p>
 
       <div className="graph" ref={graph}>
@@ -103,7 +104,6 @@ export default function Capabilities() {
                 onPointerEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
                 onClick={() => setActive(i)}
-                data-lock-label="service"
               >
                 <span className="cap__title">{c.title}</span>
                 <span className="cap__body">{c.body}</span>
