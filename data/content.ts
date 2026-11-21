@@ -127,7 +127,10 @@ export const experience: Experience[] = [
       "Ran school programmes such as Robocamp at SK Syed Ibrahim and SEBARU EXSTEM at SK Kampong Baru.",
     ],
     // Photos live in /public/experience/. Add or remove entries freely.
-    photos: [],
+    photos: [
+      { src: "/experience/jazro-1.webp", alt: "Mior at the front of a Jazro class, presenting a lesson on the projector" },
+      { src: "/experience/jazro-2.webp", alt: "Mior walking students through a robotics coding module at Jazro Academy" },
+    ],
   },
 ];
 
