@@ -5,9 +5,11 @@ import { gsap } from "@/lib/motion";
 import { face } from "@/data/content";
 import { ACCESSORIES } from "./accessories";
 
+const HELMET = 0; // index of the racing helmet in ACCESSORIES
+
 /**
- * Portrait with a playful layer: moving the pointer onto the face (or tapping it
- * on a phone) puts a random line-art accessory on. Never the same one twice in a row.
+ * Portrait with a playful layer. Hovering the head puts the racing helmet on;
+ * clicking (or tapping again on a phone) swaps in a random other accessory.
  */
 export default function FacePlay({
   src,
@@ -22,35 +24,41 @@ export default function FacePlay({
 }) {
   const [current, setCurrent] = useState<number | null>(null);
   const [finePointer, setFinePointer] = useState(false);
-  const last = useRef<number>(-1);
   const item = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setFinePointer(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
   }, []);
 
-  const pick = useCallback(() => {
+  const show = useCallback((n: number) => {
     if (item.current) gsap.killTweensOf(item.current); // cancel a pending hide
-    let n = Math.floor(Math.random() * ACCESSORIES.length);
-    if (n === last.current) n = (n + 1 + Math.floor(Math.random() * (ACCESSORIES.length - 1))) % ACCESSORIES.length;
-    last.current = n;
     setCurrent(n);
   }, []);
+
+  const randomOther = useCallback(
+    (from: number | null) => {
+      let n = Math.floor(Math.random() * ACCESSORIES.length);
+      if (n === from) n = (n + 1) % ACCESSORIES.length;
+      show(n);
+    },
+    [show]
+  );
 
   // pop-in each time the accessory changes
   useEffect(() => {
     if (current === null || !item.current) return;
     const a = ACCESSORIES[current];
-    // offsets go through GSAP (xPercent/yPercent) so they live in the same transform it animates
+    // offsets go through GSAP (xPercent/yPercent) so they share the transform it animates
     const place = { xPercent: a.dx, yPercent: a.dy };
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       gsap.set(item.current, { ...place, autoAlpha: 1, scale: 1, rotation: a.tilt });
       return;
     }
+    const helmet = current === HELMET;
     gsap.fromTo(
       item.current,
-      { ...place, autoAlpha: 0, scale: 0.6, rotation: a.tilt - 18, y: -14 },
-      { ...place, autoAlpha: 1, scale: 1, rotation: a.tilt, y: 0, duration: 0.6, ease: "back.out(2.2)" }
+      { ...place, autoAlpha: 0, scale: helmet ? 1.15 : 0.6, rotation: a.tilt - (helmet ? 0 : 18), y: helmet ? -40 : -14 },
+      { ...place, autoAlpha: 1, scale: 1, rotation: a.tilt, y: 0, duration: helmet ? 0.55 : 0.6, ease: helmet ? "power4.out" : "back.out(2.2)" }
     );
   }, [current]);
 
@@ -58,8 +66,8 @@ export default function FacePlay({
     if (!item.current) return;
     gsap.to(item.current, {
       autoAlpha: 0,
-      scale: 0.8,
-      duration: 0.25,
+      y: -30,
+      duration: 0.3,
       ease: "power2.in",
       onComplete: () => setCurrent(null),
     });
@@ -67,14 +75,6 @@ export default function FacePlay({
 
   const a = current === null ? null : ACCESSORIES[current];
   const p = a ? face[a.anchor] : null;
-
-  // the hotspot covers the head, from hair to chin
-  const hot = {
-    left: `${face.hot.left}%`,
-    top: `${face.hot.top}%`,
-    width: `${face.hot.width}%`,
-    height: `${face.hot.height}%`,
-  };
 
   return (
     <figure className="portrait" style={{ aspectRatio: `${width} / ${height}` }}>
@@ -85,12 +85,7 @@ export default function FacePlay({
         <div
           className="acc"
           ref={item}
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: `${face.width * a.scale}%`,
-            visibility: "hidden",
-          }}
+          style={{ left: `${p.x}%`, top: `${p.y}%`, width: `${face.width * a.scale}%`, visibility: "hidden" }}
           aria-hidden="true"
         >
           <svg viewBox={a.viewBox} className="acc__svg">
@@ -102,23 +97,29 @@ export default function FacePlay({
       <button
         type="button"
         className="portrait__hot"
-        style={hot}
+        style={{
+          left: `${face.hot.left}%`,
+          top: `${face.hot.top}%`,
+          width: `${face.hot.width}%`,
+          height: `${face.hot.height}%`,
+        }}
         data-cursor="face"
-        aria-label="Try on a random accessory"
-        onPointerEnter={(e) => e.pointerType === "mouse" && pick()}
+        aria-label="Put on the racing helmet, press again for another accessory"
+        onPointerEnter={(e) => e.pointerType === "mouse" && show(HELMET)}
         onPointerLeave={(e) => e.pointerType === "mouse" && hide()}
-        onClick={pick}
+        onClick={() => (current === null ? show(HELMET) : randomOther(current))}
       />
 
       <figcaption className="portrait__hint" aria-live="polite">
         {a ? (
           <>
-            Wearing: <strong>{a.name}</strong>
+            <strong>{a.name}</strong>
+            {finePointer ? ", click for another" : ", tap for another"}
           </>
         ) : finePointer ? (
-          "Hover over my face"
+          "Hover to suit up"
         ) : (
-          "Tap my face"
+          "Tap to suit up"
         )}
       </figcaption>
     </figure>

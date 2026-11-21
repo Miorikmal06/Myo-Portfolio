@@ -32,7 +32,9 @@ export default function Cursor() {
       const t = e.target as HTMLElement;
       const next = t.closest("[data-cursor='face']")
         ? "face"
-        : t.closest("a, button, select, input, textarea, label")
+        : t.closest("[data-cursor='view']")
+          ? "view"
+          : t.closest("a, button, select, input, textarea, label")
           ? "link"
           : "";
       if (next !== state) {
@@ -60,5 +62,9 @@ export default function Cursor() {
     };
   }, []);
 
-  return <div className="cursor" ref={dot} aria-hidden="true" />;
+  return (
+    <div className="cursor" ref={dot} aria-hidden="true">
+      <span className="cursor__label">View</span>
+    </div>
+  );
 }

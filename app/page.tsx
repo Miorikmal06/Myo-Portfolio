@@ -2,10 +2,11 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Cursor from "@/components/Cursor";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
+import Intro from "@/components/Intro";
+import Grow from "@/components/Grow";
 import Work from "@/components/Work";
 import Experience from "@/components/Experience";
-import Capabilities from "@/components/Capabilities";
+import Services from "@/components/Services";
 import Journey from "@/components/Journey";
 import Contact from "@/components/Contact";
 
@@ -17,10 +18,11 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <About />
+        <Intro />
+        <Grow />
         <Work />
         <Experience />
-        <Capabilities />
+        <Services />
         <Journey />
         <Contact />
       </main>

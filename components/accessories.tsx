@@ -19,6 +19,26 @@ export type Accessory = {
 
 export const ACCESSORIES: Accessory[] = [
   {
+    // side-on racing helmet, facing right like the portrait; shown first on hover
+    id: "helmet",
+    name: "Racing helmet",
+    anchor: "top",
+    scale: 1.8,
+    dx: -51,
+    dy: -8,
+    tilt: 0,
+    viewBox: "0 0 120 110",
+    art: (
+      <>
+        <path className="fill" d="M12 68C8 34 34 6 66 6c30 0 50 22 52 52v20c0 12-8 20-20 22l-58 2C22 102 14 88 12 68Z" />
+        <path className="visor" d="M66 40c16-4 38-2 50 8v18c-12 6-34 6-50 2-4-8-4-20 0-28Z" />
+        <path d="M18 56c16-6 32-8 46-8M26 24c18-12 46-14 66-2M70 36c14-3 30-2 42 4" />
+        <path d="M84 84h20M84 91h20M40 102c18 4 42 4 58-2" />
+        <circle cx="60" cy="58" r="3.5" />
+      </>
+    ),
+  },
+  {
     id: "shades",
     name: "Sunglasses",
     anchor: "eyes",

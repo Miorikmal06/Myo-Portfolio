@@ -5,11 +5,13 @@ import { experience } from "@/data/content";
 
 export default function Experience() {
   return (
-    <section className="exp section" id="experience">
-      <h2 className="eyebrow">Experience</h2>
-      {experience.map((x) => (
-        <Job key={x.org} job={x} />
-      ))}
+    <section className="exp theme-light" id="experience">
+      <div className="section">
+        <h2 className="bigtitle">Experience</h2>
+        {experience.map((x) => (
+          <Job key={x.org} job={x} />
+        ))}
+      </div>
     </section>
   );
 }
