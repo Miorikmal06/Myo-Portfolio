@@ -341,43 +341,22 @@ button {
   position: relative;
   align-self: end;
   justify-self: center;
-}
-.hero__visual::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 30%;
-  width: 140%;
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.07), transparent 60%);
-  pointer-events: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* portrait + accessory layer */
 .portrait {
   position: relative;
-  height: min(84svh, 800px);
-  aspect-ratio: 410 / 915;
-  isolation: isolate;
+  width: min(100%, 620px, calc(84svh * 1149 / 1368));
 }
+/* the photo file already fades into the page colour (#141414) at its edges */
 .portrait__img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  filter: grayscale(1) contrast(1.12) brightness(0.92);
-}
-/* light from the right, shadow falling to the left and into the floor */
-.portrait::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(20, 20, 20, 0.72) 0%, rgba(20, 20, 20, 0.15) 45%, rgba(20, 20, 20, 0) 70%),
-    linear-gradient(180deg, rgba(20, 20, 20, 0) 62%, var(--bg) 97%);
+  object-fit: cover;
+  filter: brightness(1);
 }
 .acc {
   position: absolute;
@@ -451,12 +430,13 @@ button {
     order: -1;
   }
   .portrait {
-    height: min(62svh, 560px);
+    width: min(100%, 520px, calc(60svh * 1149 / 1368));
+    margin-inline: auto;
   }
   .portrait__hint {
-    right: 50%;
-    translate: 50% 0;
-    bottom: 22%;
+    top: 4%;
+    right: 0;
+    bottom: auto;
   }
   .hero__copy {
     margin-top: -16svh;

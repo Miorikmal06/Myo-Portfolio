@@ -28,15 +28,22 @@ export const facts = [
 ];
 
 /**
- * Where the face sits in /public/me.png, as percentages of the image box.
+ * The hero portrait and where the face sits in it, as percentages of the image.
  * If the portrait is replaced, adjust these so the accessories line up.
  */
+export const portrait = {
+  src: "/me.webp",
+  width: 1149,
+  height: 1368,
+};
+
 export const face = {
-  eyes: { x: 54, y: 14.3 },     // midpoint between the eyes
-  top: { x: 55, y: 3.5 },       // top of the head
-  mouth: { x: 50.5, y: 21.6 },  // centre of the mouth
-  neck: { x: 47, y: 33 },       // collar / tie knot
-  width: 36,                    // face width
+  eyes: { x: 67.7, y: 29.6 },   // midpoint between the eyes
+  top: { x: 55.7, y: 8.4 },     // top of the head, centred on the skull
+  mouth: { x: 68.8, y: 40.4 },  // centre of the mouth
+  neck: { x: 61.4, y: 61.4 },   // collar / tie knot
+  width: 30,                    // face width
+  hot: { left: 33, top: 6.9, width: 43, height: 40 }, // hover / tap area over the head
 };
 
 export type Project = {

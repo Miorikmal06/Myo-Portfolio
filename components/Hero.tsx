@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, scrollToTarget } from "@/lib/motion";
-import { profile } from "@/data/content";
+import { profile, portrait } from "@/data/content";
 import FacePlay from "./FacePlay";
 
 export default function Hero() {
@@ -14,7 +14,7 @@ export default function Hero() {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         // the one orchestrated moment: the lights come up on the portrait
         const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15 });
-        tl.from(".portrait__img", { filter: "grayscale(1) brightness(0) contrast(1.15)", duration: 2.2, ease: "power2.out" }, 0)
+        tl.from(".portrait__img", { filter: "brightness(0)", duration: 2.2, ease: "power2.out" }, 0)
           .from(".portrait", { scale: 1.05, duration: 2.4 }, 0)
           .from(".hero__line", { yPercent: 105, duration: 1.2, stagger: 0.1 }, 0.35)
           .from(".hero__after", { autoAlpha: 0, y: 16, duration: 0.9, stagger: 0.08 }, 0.8);
@@ -57,7 +57,12 @@ export default function Hero() {
         </div>
 
         <div className="hero__visual">
-          <FacePlay src="/me.png" alt={`Portrait of ${profile.fullName}`} />
+          <FacePlay
+            src={portrait.src}
+            width={portrait.width}
+            height={portrait.height}
+            alt={`Portrait of ${profile.fullName}, seated, in a dark suit`}
+          />
         </div>
       </div>
     </section>

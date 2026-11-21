@@ -9,7 +9,17 @@ import { ACCESSORIES } from "./accessories";
  * Portrait with a playful layer: moving the pointer onto the face (or tapping it
  * on a phone) puts a random line-art accessory on. Never the same one twice in a row.
  */
-export default function FacePlay({ src, alt }: { src: string; alt: string }) {
+export default function FacePlay({
+  src,
+  alt,
+  width,
+  height,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}) {
   const [current, setCurrent] = useState<number | null>(null);
   const [finePointer, setFinePointer] = useState(false);
   const last = useRef<number>(-1);
@@ -60,16 +70,16 @@ export default function FacePlay({ src, alt }: { src: string; alt: string }) {
 
   // the hotspot covers the head, from hair to chin
   const hot = {
-    left: `${face.eyes.x - face.width * 0.62}%`,
-    top: `${face.top.y}%`,
-    width: `${face.width * 1.24}%`,
-    height: `${face.mouth.y - face.top.y + 7}%`,
+    left: `${face.hot.left}%`,
+    top: `${face.hot.top}%`,
+    width: `${face.hot.width}%`,
+    height: `${face.hot.height}%`,
   };
 
   return (
-    <figure className="portrait">
+    <figure className="portrait" style={{ aspectRatio: `${width} / ${height}` }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="portrait__img" src={src} alt={alt} width={410} height={915} fetchPriority="high" />
+      <img className="portrait__img" src={src} alt={alt} width={width} height={height} fetchPriority="high" />
 
       {a && p && (
         <div
